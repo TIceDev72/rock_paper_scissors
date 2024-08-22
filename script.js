@@ -6,7 +6,9 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-  let humanChoice = prompt('Enter Your choice:')
+  let humanChoice = prompt(
+    'Enter any of the following choices\n(rock, paper, and scissors):'
+  )
   return humanChoice
 }
 
