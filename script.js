@@ -1,72 +1,68 @@
 'use strict'
+// list of available choices
+const choiceList = ['rock', 'paper', 'scissors']
+
+// Get computer's choice
 function getComputerChoice() {
-  const choiceList = ['rock', 'paper', 'scissors']
   let computerChoice = choiceList[Math.floor(Math.random() * 3)]
   return computerChoice
 }
-
+// Get the human's choice
 function getHumanChoice() {
-  let humanChoice = prompt(
-    'Enter any of the following choices\n(rock, paper, and scissors):'
-  )
+  let humanChoice
+
+  while (true) {
+    humanChoice = prompt(
+      'Enter Your choice (rock, paper, and scissors):'
+    ).toLocaleLowerCase()
+
+    if (choiceList.includes(humanChoice)) {
+      break
+    } else {
+      console.log('Invalid choice! Try agin.')
+    }
+  }
   return humanChoice
 }
 
+// play a round
 function playRound(humanChoice, computerChoice) {
-  let lowerCaseHumChoice = humanChoice.toLowerCase()
-  switch (lowerCaseHumChoice) {
-    case 'rock':
-      if (computerChoice !== lowerCaseHumChoice && computerChoice !== 'paper') {
-        console.log(`You won! ${humanChoice} beats ${computerChoice}`)
-        ++humanScore
-      } else if (computerChoice === lowerCaseHumChoice) {
-        console.log(
-          `It's a tie!\nYour choice "${humanChoice}" and pc's choice "${computerChoice}" are thesame.`
-        )
-      } else {
-        console.log(`You lose! ${computerChoice} beats ${humanChoice}. Pc Won!`)
-        ++computerScore
-      }
-      break
-    case 'paper':
-      if (
-        computerChoice !== lowerCaseHumChoice &&
-        computerChoice !== 'scissors'
-      ) {
-        console.log(`You won! ${humanChoice} beats ${computerChoice}`)
-        ++humanScore
-      } else if (computerChoice === lowerCaseHumChoice) {
-        console.log(
-          `It's a tie!\nYour choice "${humanChoice}" and pc's choice "${computerChoice}" are thesame.`
-        )
-      } else {
-        console.log(`You lose! ${computerChoice} beats ${humanChoice}. Pc Won!`)
-        ++computerScore
-      }
-      break
-    case 'scissors':
-      if (computerChoice !== lowerCaseHumChoice && computerChoice !== 'rock') {
-        console.log(`You won! ${humanChoice} beats ${computerChoice}`)
-        ++humanScore
-      } else if (computerChoice === lowerCaseHumChoice) {
-        console.log(
-          `It's a tie!\nYour choice "${humanChoice}" and pc's choice "${computerChoice}" are thesame.`
-        )
-      } else {
-        console.log(`You lose! ${computerChoice} beats ${humanChoice}. Pc Won!`)
-        ++computerScore
-      }
-      break
+  if (humanChoice === computerChoice) {
+    console.log(`It's a tie! Both are ${humanChoice}`)
+    return 'tie'
+  }
+
+  if (
+    (humanChoice === 'rock' && computerChoice === 'scissors') ||
+    (humanChoice === 'paper' && computerChoice === 'rock') ||
+    (humanChoice === 'scissors' && computerChoice == 'paper')
+  ) {
+    console.log(`You won! ${humanChoice} beats ${computerChoice}`)
+    return 'human'
+  } else {
+    console.log(`You lose! ${computerChoice} beats ${humanChoice}`)
+    return 'computer'
   }
 }
 
-let humanScore = 0
-let computerScore = 0
+function playGame() {
+  let humanScore = 0
+  let computerScore = 0
 
-const humanSelection = getHumanChoice()
-const computerSelection = getComputerChoice()
+  for (let i = 0; i < 5; i++) {
+    let humanSelection = getHumanChoice()
+    let computerSelection = getComputerChoice()
+    let result = playRound(humanSelection, computerSelection)
 
-playRound(humanSelection, computerSelection)
+    if (result === 'human') {
+      humanScore++
+    } else if (result === 'computer') {
+      computerScore++
+    }
+  }
+  console.log('Final Score')
+  console.log('Your score: ' + humanScore)
+  console.log('Computer score: ' + computerScore)
+}
 
-console.log('Your score is: ' + humanScore)
-console.log('Computer score is: ' + computerScore)
+playGame()
