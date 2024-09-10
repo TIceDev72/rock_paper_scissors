@@ -1,28 +1,28 @@
 'use strict'
 // list of available choices
-const choiceList = ['rock', 'paper', 'scissors']
+const choices = ['rock', 'paper', 'scissors']
 
 // Get computer's choice
 function getComputerChoice() {
-  let computerChoice = choiceList[Math.floor(Math.random() * 3)]
-  return computerChoice
+  let selectedChoice = choices[Math.floor(Math.random() * 3)]
+  return selectedChoice
 }
 // Get the human's choice
 function getHumanChoice() {
-  let humanChoice
+  let selectedChoice
 
   while (true) {
-    humanChoice = prompt(
+    selectedChoice = prompt(
       'Enter Your choice (rock, paper, and scissors):'
     ).toLocaleLowerCase()
 
-    if (choiceList.includes(humanChoice)) {
+    if (choices.includes(selectedChoice)) {
       break
     } else {
       console.log('Invalid choice! Try agin.')
     }
   }
-  return humanChoice
+  return selectedChoice
 }
 
 // play a round
@@ -37,7 +37,7 @@ function playRound(humanChoice, computerChoice) {
     (humanChoice === 'paper' && computerChoice === 'rock') ||
     (humanChoice === 'scissors' && computerChoice == 'paper')
   ) {
-    console.log(`You won! ${humanChoice} beats ${computerChoice}`)
+    console.log(`You win! ${humanChoice} beats ${computerChoice}`)
     return 'human'
   } else {
     console.log(`You lose! ${computerChoice} beats ${humanChoice}`)
@@ -60,6 +60,7 @@ function playGame() {
       computerScore++
     }
   }
+
   console.log('Final Score')
   console.log('Your score: ' + humanScore)
   console.log('Computer score: ' + computerScore)
