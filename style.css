@@ -1,0 +1,92 @@
+body {
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  color: rgb(58, 57, 57);
+  margin: 0;
+  padding: 16px;
+  text-align: center;
+  background-color: rgba(245, 229, 224, 0.829);
+  min-height: 100vh;
+}
+
+h1 {
+  margin-bottom: 50px;
+  text-decoration: underline;
+}
+
+.choices {
+  display: flex;
+  min-height: 150px;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  max-width: 700px;
+  margin: 0 auto 20px;
+}
+
+.choices button {
+  flex: 1;
+  max-width: 180px;
+  font-size: 100px;
+  border-radius: 25px;
+  background-color: rgb(24, 67, 75);
+}
+
+.choices button:hover {
+  opacity: 0.8;
+}
+
+.choices button:active {
+  opacity: 0.6;
+}
+
+#playerDisplay,
+#computerDisplay {
+  font-size: 40px;
+}
+
+#computerDisplay {
+  margin-bottom: 22px;
+}
+
+.overlay-result-display {
+  font-size: 50px;
+  padding: 8px;
+  background-color: white;
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+.try-again-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgb(24, 67, 75);
+  border: 1px solid rgb(24, 67, 75);
+  border-radius: 33px;
+}
+
+.try-again-button:active {
+  margin: 4px -5px 0 0;
+}
+
+.main-result-display {
+  color: rgb(24, 67, 75);
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: none;
+}
+
+.show-overlay {
+  display: block;
+}

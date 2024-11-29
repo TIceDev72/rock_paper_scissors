@@ -1,74 +1,108 @@
 "use strict";
+
 const choices = ["rock", "paper", "scissors"];
 
-// Get computer's choice
-function getComputerChoice() {
-  let selectedChoice = choices[Math.floor(Math.random() * 3)];
-  return selectedChoice;
-}
+const playerDisplay = document.getElementById("playerDisplay");
+const computerDisplay = document.getElementById("computerDisplay");
+const overlayResultDisplay = document.querySelector(".overlay-result-display");
+const choicesContainer = document.querySelector(".choices");
+const overlay = document.querySelector(".overlay");
+const playerScoreDisplay = document.querySelector(".player-score-display");
+const computerScoreDisplay = document.querySelector(".computer-score-display");
+const tryAgainButton = document.querySelector(".try-again-button");
 
-// Get the human's choice
-function getHumanChoice() {
-  let result;
+let mainResultDisplay = document.querySelector(".main-result-display");
 
-  while (true) {
-    result = prompt(
-      "Enter Your choice (rock, paper, and scissors):"
-    ).toLowerCase();
+let computerScore = 0;
+let playerScore = 0;
 
-    if (choices.includes(result)) {
-      break;
-    } else {
-      console.log("Invalid choice! Try agin.");
-    }
+choicesContainer.addEventListener("click", (e) => {
+  let button = e.target
+    .getAttribute("class")
+    .slice(0, e.target.getAttribute("class").indexOf("-"));
+
+  if (button !== "choice") {
+    let playerMadeChoiceEvent = new CustomEvent("player-made-choice", {
+      detail: {
+        playerChoice: button,
+        computerChoice: choices[Math.floor(Math.random() * 3)],
+      },
+    });
+
+    document.dispatchEvent(playerMadeChoiceEvent);
   }
-  return result;
+});
+
+document.addEventListener("player-made-choice", (event) => {
+  updateChoices(event.detail.playerChoice, event.detail.computerChoice);
+
+  let winner = getWinner(
+    event.detail.playerChoice,
+    event.detail.computerChoice
+  );
+
+  updateScores(winner);
+  announceWinner(playerScore, computerScore);
+});
+
+tryAgainButton.addEventListener("click", () => {
+  tryAgainButton.parentNode.classList.toggle("show-overlay");
+
+  clearData();
+});
+
+function updateChoices(pChoice, cChoice) {
+  playerDisplay.textContent = "PLAYER: " + pChoice;
+  computerDisplay.textContent = "COMPUTER: " + cChoice;
 }
 
-// play a round
-function playRound(humanChoice, computerChoice) {
-  if (humanChoice === computerChoice) {
-    console.log(`Tie! Both are ${humanChoice}`);
+function getWinner(pChoice, cChoice) {
+  if (pChoice === cChoice) {
     return "tie";
-  }
-
-  if (
-    (humanChoice === "rock" && computerChoice === "scissors") ||
-    (humanChoice === "paper" && computerChoice === "rock") ||
-    (humanChoice === "scissors" && computerChoice == "paper")
+  } else if (
+    (pChoice === "rock" && cChoice === "scissors") ||
+    (pChoice === "scissors" && cChoice === "paper") ||
+    (pChoice === "paper" && cChoice === "rock")
   ) {
-    console.log(`You win! ${humanChoice} beats ${computerChoice}`);
-    return "human";
+    return "player";
   } else {
-    console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
     return "computer";
   }
 }
 
-function playGame() {
-  let humanScore = 0;
-  let computerScore = 0;
+function updateScores(winner) {
+  if (winner === "player") {
+    mainResultDisplay.textContent = "You won!";
+    playerScore++;
 
-  for (let i = 0, n = 5; i < n; i++) {
-    let humanSelection = getHumanChoice();
-    let computerSelection = getComputerChoice();
-    let result = playRound(humanSelection, computerSelection);
+    playerScoreDisplay.textContent = "Player Score: " + playerScore;
+  } else if (winner === "computer") {
+    mainResultDisplay.textContent = "Computer won!!";
+    computerScore++;
 
-    if (result === "tie") {
-      ++n;
-      continue;
-    } else if (result === "computer") {
-      ++computerScore;
-    } else {
-      ++humanScore;
-    }
-  }
-
-  console.log(
-    `Final Score:\n
-    Your score: ${humanScore}\n
-    Computer score: ${computerScore} `
-  );
+    computerScoreDisplay.textContent = "Computer Score: " + computerScore;
+  } else mainResultDisplay.textContent = "It's a tie!";
 }
 
-playGame();
+function announceWinner(pScore, cScore) {
+  if (pScore === 5) {
+    overlayResultDisplay.textContent = "YOU WIN! 🫵";
+    overlay.classList.toggle("show-overlay");
+  }
+  if (cScore === 5) {
+    overlayResultDisplay.textContent = "YOU LOST! 🤦";
+    overlay.classList.toggle("show-overlay");
+  }
+}
+
+function clearData() {
+  playerDisplay.textContent = "PLAYER:";
+  computerDisplay.textContent = "COMPUTER:";
+
+  playerScore = 0;
+  computerScore = 0;
+  playerScoreDisplay.textContent = "Player Score: 0";
+  computerScoreDisplay.textContent = "Computer Score: 0";
+
+  mainResultDisplay.textContent = "";
+}
