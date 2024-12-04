@@ -2,9 +2,7 @@
 
 const choices = ["rock", "paper", "scissors"];
 
-const gameStartDialogBox = document.querySelector(
-  ".game-start-overlay .dialog-box"
-);
+const gameStartDialogBox = document.querySelector(".dialog-box");
 const playerDisplay = document.getElementById("playerDisplay");
 const computerDisplay = document.getElementById("computerDisplay");
 const overlayResultDisplay = document.querySelector(".overlay-result-display");
@@ -12,10 +10,9 @@ const choicesContainer = document.querySelector(".choices");
 const overlay = document.querySelector(".overlay");
 const playerScoreDisplay = document.querySelector(".player-score-display");
 const computerScoreDisplay = document.querySelector(".computer-score-display");
-const tryAgainButton = document.querySelector(".try-again-button");
+const playAgainButton = document.querySelector(".play-again-button");
 const fetchingDataMessage = document.querySelector(".computer-mesg");
-
-let mainResultDisplay = document.querySelector(".main-result-display");
+const mainResultDisplay = document.querySelector(".main-result-display");
 
 let computerScore = 0;
 let playerScore = 0;
@@ -24,7 +21,7 @@ let playerScore = 0;
 gameStartDialogBox.addEventListener("click", (button) => {
   let buttonClicked = button.target.getAttribute("class");
 
-  // If yes is clicked remove dialog box and overlay
+  // Remove dialog box and overlay if Yes is clicked
   if (buttonClicked === "yes-button") {
     gameStartDialogBox.parentNode.remove();
     // Else insert the error code in the in the HTML body tag
@@ -37,11 +34,15 @@ gameStartDialogBox.addEventListener("click", (button) => {
 choicesContainer.addEventListener("click", (button) => {
   let buttonClicked = button.target.getAttribute("class");
 
+  if (!choices.includes(buttonClicked)) return;
+
   fetchingDataMessage.textContent = "Computer is deciding...";
+
+  // Prevents buttons from being interacted with while the pc is deciding
+  choicesContainer.style.pointerEvents = "none";
+
   setTimeout(() => {
     fetchingDataMessage.textContent = "";
-
-    if (!choices.includes(buttonClicked)) return;
 
     let playerMadeChoiceEvent = new CustomEvent("player-made-choice", {
       detail: {
@@ -51,7 +52,10 @@ choicesContainer.addEventListener("click", (button) => {
     });
 
     document.dispatchEvent(playerMadeChoiceEvent);
-  }, 200);
+
+    // Makes buttons interactive once more
+    choicesContainer.style.pointerEvents = "auto";
+  }, 1000);
 });
 
 // Call functions to update different parts of the game
@@ -66,10 +70,11 @@ document.addEventListener("player-made-choice", (event) => {
   let winner = getWinner(playerSelection, computerSelection);
 
   updateScores(winner);
+
   announceWinner(playerScore, computerScore);
 });
 
-tryAgainButton.addEventListener("click", () => {
+playAgainButton.addEventListener("click", () => {
   overlay.classList.toggle("show-overlay");
 
   clearData();
@@ -96,16 +101,20 @@ function getWinner(pSelection, cSelection) {
 
 function updateScores(winner) {
   if (winner === "player") {
-    mainResultDisplay.textContent = "You won!";
+    mainResultDisplay.textContent = "You won this Round!!";
     playerScore++;
 
     playerScoreDisplay.textContent = "Player Score: " + playerScore;
   } else if (winner === "computer") {
-    mainResultDisplay.textContent = "Computer won!!";
+    mainResultDisplay.textContent = "Computer won this Round!!";
     computerScore++;
 
     computerScoreDisplay.textContent = "Computer Score: " + computerScore;
   } else mainResultDisplay.textContent = "It's a tie!";
+
+  setTimeout(() => {
+    mainResultDisplay.textContent = "";
+  }, 900);
 }
 
 function announceWinner(pScore, cScore) {

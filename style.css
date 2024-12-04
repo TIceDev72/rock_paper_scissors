@@ -84,12 +84,14 @@ h1 {
 }
 
 #computerDisplay {
-  margin-bottom: 22px;
+  margin-bottom: 12px;
 }
 
 .computer-mesg {
-  position: absolute;
-  bottom: 10px;
+  position: fixed;
+  left: 45%;
+  bottom: 10%;
+  opacity: 20%;
 }
 
 .overlay-result-display {
@@ -101,7 +103,7 @@ h1 {
   margin-bottom: 30px;
 }
 
-.try-again-button {
+.play-again-button {
   padding: 10px 15px;
   position: static;
   font-size: 16px;
@@ -115,13 +117,15 @@ h1 {
   color: rgb(244, 192, 94);
   margin-bottom: 10px;
   font-style: italic;
+  height: 17px;
+  text-align: center;
 }
 
 .overlay {
   position: fixed;
   text-align: center;
   top: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 80%);
   bottom: 0;
   right: 0;
   left: 0;
