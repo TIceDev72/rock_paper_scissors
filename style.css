@@ -113,14 +113,6 @@ h1 {
   background-color: rgb(244, 192, 94);
 }
 
-.main-result-display {
-  color: rgb(244, 192, 94);
-  margin-bottom: 10px;
-  font-style: italic;
-  height: 17px;
-  text-align: center;
-}
-
 .overlay {
   position: fixed;
   text-align: center;

@@ -12,7 +12,6 @@ const playerScoreDisplay = document.querySelector(".player-score-display");
 const computerScoreDisplay = document.querySelector(".computer-score-display");
 const playAgainButton = document.querySelector(".play-again-button");
 const fetchingDataMessage = document.querySelector(".computer-mesg");
-const mainResultDisplay = document.querySelector(".main-result-display");
 
 let computerScore = 0;
 let playerScore = 0;
@@ -101,20 +100,14 @@ function getWinner(pSelection, cSelection) {
 
 function updateScores(winner) {
   if (winner === "player") {
-    mainResultDisplay.textContent = "You won this Round!!";
     playerScore++;
 
     playerScoreDisplay.textContent = "Player Score: " + playerScore;
   } else if (winner === "computer") {
-    mainResultDisplay.textContent = "Computer won this Round!!";
     computerScore++;
 
     computerScoreDisplay.textContent = "Computer Score: " + computerScore;
-  } else mainResultDisplay.textContent = "It's a tie!";
-
-  setTimeout(() => {
-    mainResultDisplay.textContent = "";
-  }, 900);
+  } 
 }
 
 function announceWinner(pScore, cScore) {
