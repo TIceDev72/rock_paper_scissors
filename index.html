@@ -8,12 +8,22 @@
     <script src="./script.js" defer></script>
   </head>
   <body>
-    <h1>Rock, Paper and Scissors</h1>
+    <div class="game-start-overlay">
+      <div class="dialog-box">
+        <p>Do you which to play Rock, Paper, Scissors ?</p>
+        <div>
+          <button class="yes-button">Yes</button>
+          <button class="no-button">No</button>
+        </div>
+      </div>
+    </div>
+
+    <h1>Rock, Paper, Scissors</h1>
 
     <div class="choices">
-      <button class="rock-button">👊</button>
-      <button class="paper-button">✋</button>
-      <button class="scissors-button">✌️</button>
+      <button class="rock">👊</button>
+      <button class="paper">✋</button>
+      <button class="scissors">✌️</button>
     </div>
 
     <div id="playerDisplay">PLAYER:</div>
@@ -24,9 +34,11 @@
     <div class="player-score-display">Player Score: 0</div>
     <div class="computer-score-display">Computer Score: 0</div>
 
+    <div class="computer-mesg"></div>
+
     <div class="overlay">
       <div class="overlay-result-display"></div>
-      <button class="try-again-button">Try Again?</button>
+      <button class="try-again-button">Play Again?</button>
     </div>
   </body>
 </html>
